@@ -1,5 +1,7 @@
 package com.ecommerceproject.service;
 
+import com.ecommerceproject.model.order.OrderResult;
+import com.ecommerceproject.model.order.OrderStatus;
 import com.ecommerceproject.model.product.CartItem;
 import com.ecommerceproject.model.product.Product;
 import lombok.AllArgsConstructor;
@@ -57,12 +59,19 @@ public class ShoppingCartService {
     }
 
     public void removeProduct(String email, int id) {
-        shoppingCarts.get(email).forEach((cartItem) -> {
-            if (cartItem.getProduct().getId() == id) {
-                shoppingCarts.get(email).remove(cartItem);
-            }else {
-                throw new IllegalArgumentException("Item not found");
-            }
-        });
+        List<CartItem> cart = shoppingCarts.get(email);
+        boolean removed = cart.removeIf(item -> item.getProduct().getId() == id);
+        if (!removed) {
+            throw new IllegalArgumentException("Item not found in cart");
+        }
+    }
+
+    public double getTotalPrice(String email) {
+        List<CartItem> cart = shoppingCarts.get(email);
+        double totalPrice = 0;
+        for (CartItem cartItem : cart) {
+            totalPrice += cartItem.getProduct().getPrice() * cartItem.getQuantity();
+        }
+        return totalPrice;
     }
 }

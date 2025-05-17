@@ -1,11 +1,13 @@
 package com.ecommerceproject.service;
 
+import com.ecommerceproject.model.product.CartItem;
 import com.ecommerceproject.model.product.Product;
 import com.ecommerceproject.model.product.ProductRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -39,7 +41,9 @@ public class ProductService {
     }
 
     public Product updateProduct(int id,ProductRequest productRequest) {
-        return products.put(id, createProduct(id, productRequest));
+        Product updatedProduct = createProduct(id, productRequest);
+        products.put(id, updatedProduct);
+        return updatedProduct;
     }
 
     public Collection<Product> getAllProducts() {
@@ -52,5 +56,16 @@ public class ProductService {
                 productRequest.getDescription(),
                 productRequest.getPrice(),
                 productRequest.getStock());
+    }
+
+    public void deductStock(List<CartItem> cart) {
+        for (CartItem cartItem : cart) {
+            Product product = cartItem.getProduct();
+            int newStock = product.getStock() - cartItem.getQuantity();
+            if (newStock == 0){
+                deleteProductById(product.getId());
+            }
+            products.get(product.getId()).setStock(newStock);
+        }
     }
 }
