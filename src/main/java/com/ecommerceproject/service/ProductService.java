@@ -68,4 +68,17 @@ public class ProductService {
             products.get(product.getId()).setStock(newStock);
         }
     }
+
+    public String getProductListAsString() {
+        StringBuilder productList = new StringBuilder();
+        for (Product p : products.values()) {
+            productList.append("- ")
+                    .append(p.getName())
+                    .append(" (").append(p.getDescription()).append(") - $")
+                    .append(p.getPrice())
+                    .append(": ").append(p.getStock()).append(" in stock")
+                    .append("\n");
+        }
+        return productList.toString();
+    }
 }
