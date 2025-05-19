@@ -29,6 +29,9 @@ public class OrderService {
             return stockCheck;
         }
         User user = userService.getUserByEmail(email);
+        if (user == null) {
+            return new OrderResult(OrderStatus.FAILED, "User not found", 0);
+        }
 
         // აქ საჭიროა შემოწმდეს იუზერი ბიუჯეტი მეტია ან ტოლია თუ არა მთლიან ფასზე
         if (user.getBudget() < totalPrice) {
