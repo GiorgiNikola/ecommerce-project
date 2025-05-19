@@ -64,6 +64,7 @@ public class ProductService {
             int newStock = product.getStock() - cartItem.getQuantity();
             if (newStock == 0){
                 deleteProductById(product.getId());
+                return;
             }
             products.get(product.getId()).setStock(newStock);
         }
@@ -73,6 +74,7 @@ public class ProductService {
         StringBuilder productList = new StringBuilder();
         for (Product p : products.values()) {
             productList.append("- ")
+                    .append("ID: ").append(p.getId())
                     .append(p.getName())
                     .append(" (").append(p.getDescription()).append(") - $")
                     .append(p.getPrice())

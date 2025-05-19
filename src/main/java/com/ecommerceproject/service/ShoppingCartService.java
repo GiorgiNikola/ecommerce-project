@@ -8,13 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
-@AllArgsConstructor
 @Getter
 @Service
 public class ShoppingCartService {
@@ -23,8 +19,9 @@ public class ShoppingCartService {
     private Map<String, List<CartItem>> shoppingCarts;
     private ProductService productService;
 
-    public ShoppingCartService() {
+    public ShoppingCartService(ProductService productService) {
         shoppingCarts = new HashMap<>();
+        this.productService = productService;
     }
 
     // როცა იუზერი დარეგისტრირდება უნდა დაიქოლოს ეს ფუნქცია რომ მისთვის შეიქმნას კალათა
@@ -73,5 +70,9 @@ public class ShoppingCartService {
             totalPrice += cartItem.getProduct().getPrice() * cartItem.getQuantity();
         }
         return totalPrice;
+    }
+
+    public Collection<CartItem> getCartItems(String email) {
+        return shoppingCarts.get(email);
     }
 }
