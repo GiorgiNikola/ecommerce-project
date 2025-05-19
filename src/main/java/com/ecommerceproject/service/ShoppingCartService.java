@@ -1,10 +1,7 @@
 package com.ecommerceproject.service;
 
-import com.ecommerceproject.model.order.OrderResult;
-import com.ecommerceproject.model.order.OrderStatus;
 import com.ecommerceproject.model.product.CartItem;
 import com.ecommerceproject.model.product.Product;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 

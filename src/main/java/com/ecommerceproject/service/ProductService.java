@@ -62,11 +62,10 @@ public class ProductService {
         for (CartItem cartItem : cart) {
             Product product = cartItem.getProduct();
             int newStock = product.getStock() - cartItem.getQuantity();
+            product.setStock(newStock);
             if (newStock == 0){
                 deleteProductById(product.getId());
-                return;
             }
-            products.get(product.getId()).setStock(newStock);
         }
     }
 
